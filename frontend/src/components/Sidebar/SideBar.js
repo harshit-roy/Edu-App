@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { FaBars, FaHome, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
 const routes = [
@@ -23,8 +24,14 @@ const routes = [
 ];
 
 const SideBar = ({ children }) => {
+  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    history.push("/");
+  };
   const inputAnimation = {
     hidden: {
       width: 0,
@@ -143,6 +150,7 @@ const SideBar = ({ children }) => {
                     animate="show"
                     exit="hidden"
                     className="link_text"
+                    onClick={logoutHandler}
                   >
                     Logout
                   </motion.div>
